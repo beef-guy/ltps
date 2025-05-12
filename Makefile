@@ -29,6 +29,7 @@ SOURCES := main.cpp \
 	include/commands/commands.cpp \
 	include/commands/warp.cpp \
 	include/commands/find.cpp \
+	include/commands/weather.cpp \
 	include/tools/randomizer.cpp
 	
 OBJECTS := $(SOURCES:.cpp=.o)
