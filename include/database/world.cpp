@@ -68,7 +68,7 @@ void state_visuals(ENetEvent& event, state s)
     s.netid = _peer[event.peer]->netid;
     peers(ENET_PEER_STATE_CONNECTED, [&](ENetPeer& p) 
     {
-        if (not _peer[&p]->recent_worlds.empty() && !_peer[event.peer]->recent_worlds.empty() && _peer[&p]->recent_worlds.back() == _peer[event.peer]->recent_worlds.back()) 
+        if (!_peer[&p]->recent_worlds.empty() && !_peer[event.peer]->recent_worlds.empty() && _peer[&p]->recent_worlds.back() == _peer[event.peer]->recent_worlds.back()) 
             send_data(p, compress_state(s));
     });
 }
@@ -95,19 +95,19 @@ void drop_visuals(ENetEvent& event, const std::array<short, 2>& im, const std::a
     *reinterpret_cast<float*>(&compress[16]) = static_cast<float>(it.count);
     peers(ENET_PEER_STATE_CONNECTED, [&](ENetPeer& p) 
     {
-        if (not _peer[&p]->recent_worlds.empty() && !_peer[event.peer]->recent_worlds.empty() && _peer[&p]->recent_worlds.back() == _peer[event.peer]->recent_worlds.back()) 
+        if (!_peer[&p]->recent_worlds.empty() && !_peer[event.peer]->recent_worlds.empty() && _peer[&p]->recent_worlds.back() == _peer[event.peer]->recent_worlds.back()) 
             send_data(p, compress);
     });
 }
 
 void clothing_visuals(ENetEvent &event) 
 {
-    gt_packet(*event.peer, true, {
+    gt_packet(*event.peer, true, 0, {
         "OnSetClothing", 
         std::vector<float>{_peer[event.peer]->clothing[hair], _peer[event.peer]->clothing[shirt], _peer[event.peer]->clothing[legs]}, 
         std::vector<float>{_peer[event.peer]->clothing[feet], _peer[event.peer]->clothing[face], _peer[event.peer]->clothing[hand]}, 
         std::vector<float>{_peer[event.peer]->clothing[back], _peer[event.peer]->clothing[head], _peer[event.peer]->clothing[charm]}, 
-        -1429995521,
+        _peer[event.peer]->skin_color,
         std::vector<float>{_peer[event.peer]->clothing[ances], 0.0f, 0.0f}
     });
 }
